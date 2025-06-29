@@ -9,7 +9,7 @@ public class TabelaPrecoService {
 
 	private TabelaPrecoRepository tabelaPrecoRepository = new TabelaPrecoRepository();
 
-	public boolean excluirTabelaPrecoById(Long id) {
+	public boolean excluirTabelaPreco(Long id) {
 		TabelaPreco tabelaPrecoToDelete = (TabelaPreco) tabelaPrecoRepository.findById(id);
 		if (tabelaPrecoToDelete == null) {
 			System.out.println("ERRO: Não foi possível encontrar o item.");

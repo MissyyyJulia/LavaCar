@@ -2,6 +2,7 @@ package controller;
 
 import java.util.List;
 
+import model.entities.Carro;
 import model.entities.Consultor;
 import model.services.ConsultorService;
 import view.ConsultorDTO;
@@ -45,4 +46,9 @@ public class ConsultorController {
         consultorService.excluirConsultor(id);
         System.out.println("Consultor excluído com sucesso");
     }
+    
+    public Consultor findByNome(String nome) {
+		return consultorService.findByNome(nome);
+	}
+	
 }
