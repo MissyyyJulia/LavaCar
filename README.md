@@ -1,4 +1,4 @@
-# LavaCar – Sistema de Gerenciamento de Lavagens Automotivas 🚗🧽
+# LavaCar – Sistema de Gerenciamento de Lavagens Automotivas 
 
 Este projeto é um sistema completo em Java que simula a gestão de lavagens automotivas em um lava-rápido. A aplicação funciona via console (terminal) e permite o cadastro, listagem, busca, atualização e exclusão de **carros**, **consultores**, **lavagens** e **tabela de preços**.
 
@@ -85,4 +85,6 @@ src/ \
 - Excluir lavagem
 
 ---
-
+######Observações:
+As atividades foram realizadas com base em dois projetos acadêmicos: clinica_escola e revenda+. Foi utilizada ajuda de inteligência artificial para o tratamento de exceções e organização das classes não persistidas no banco de dados.
+Como não foi especificada a necessidade do uso de Java Swing na camada de visualização (View), a implementação foi realizada utilizando exclusivamente entrada e saída de dados via console.
