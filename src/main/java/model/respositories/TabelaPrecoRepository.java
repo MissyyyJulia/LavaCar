@@ -28,7 +28,6 @@ public class TabelaPrecoRepository implements BasicCrud {
 		} catch (Exception e) {
 			System.out.println(e.getCause());
 		}
-
 		return null;
 	}
 
@@ -56,7 +55,11 @@ public class TabelaPrecoRepository implements BasicCrud {
 	// Procurar Preço por Modelo do carro
 	// UPER pra ficar num padrão e evitar erro por CaseSensitive
 	public TabelaPreco findByModelo(String modelo) {
-		return em.createQuery("SELECT t FROM TabelaPreco t WHERE UPPER(t.modelo) = :modelo", TabelaPreco.class)
-				.setParameter("modelo", modelo.toUpperCase()).getSingleResult();
+		try {
+			return em.createQuery("SELECT t FROM TabelaPreco t WHERE UPPER(t.modelo) = :modelo", TabelaPreco.class)
+					.setParameter("modelo", modelo.toUpperCase()).getSingleResult();
+		} catch (javax.persistence.NoResultException e) {
+		    return null;
+		}
 	}
 }

@@ -3,12 +3,11 @@ package model.services;
 import java.util.List;
 
 import model.entities.Carro;
-import model.entities.CarroNovo;
-import model.entities.CarroSemiNovo;
 import model.entities.Consultor;
 import model.entities.Lavagem;
 import model.entities.TabelaPreco;
 import model.respositories.LavagemRepository;
+import view.LavagemDTO;
 
 public class LavagemService {
 
@@ -25,20 +24,17 @@ public class LavagemService {
 			return false;
 		}
 		lavagemRepository.delete(id);
-		System.out.println("Consultor excluído com sucesso.");
+		System.out.println("Lavagem excluída com sucesso.");
 		return true;
 	}
 	
-	public Lavagem adicionarLavagem(Lavagem lavagem) {
+	public Lavagem adicionarLavagem(LavagemDTO lavagemDTO) {
 		Carro carro = null;
 
-		// distinção entre CarroNovo e CarroSemiNovo
-		if (lavagem.getCarro() instanceof CarroNovo) {
-			String chassi = ((CarroNovo) lavagem.getCarro()).getChassi();
-			carro = carroService.findByChassi(chassi);
-		} else if (lavagem.getCarro() instanceof CarroSemiNovo) {
-			String placa = ((CarroSemiNovo) lavagem.getCarro()).getPlaca();
-			carro = carroService.findByPlaca(placa);
+		if (lavagemDTO.getTipoCarro().equalsIgnoreCase("NOVO")) {
+			carro = carroService.findByChassi(lavagemDTO.getIdentificador());
+		} else if (lavagemDTO.getTipoCarro().equalsIgnoreCase("SEMINOVO")) {
+			carro = carroService.findByPlaca(lavagemDTO.getIdentificador());
 		}
 
 		if (carro == null) {
@@ -46,31 +42,72 @@ public class LavagemService {
 			return null;
 		}
 
-		Consultor consultor = consultorService.findById(lavagem.getConsultor().getId());
+		Consultor consultor = consultorService.findByNome(lavagemDTO.getNomeConsultor());
 		if (consultor == null) {
 			System.out.println("ERRO: Consultor não encontrado.");
 			return null;
 		}
 
-		TabelaPreco valor = tabelaPrecoService.findByModelo(carro.getModelo());
-		if (valor == null) {
+		TabelaPreco preco = tabelaPrecoService.findByModelo(carro.getModelo());
+		if (preco == null) {
 			System.out.println("ERRO: Modelo não cadastrado na tabela de preços.");
 			return null;
 		}
 
-		lavagem.setCarro(carro);
-		lavagem.setConsultor(consultor);
-		lavagem.setValor(valor.getPreco());
+		Lavagem nova = new Lavagem();
+		nova.setData(lavagemDTO.getData());
+		nova.setOrdemServico(lavagemDTO.getOrdemServico());
+		nova.setConsultor(consultor);
+		nova.setCarro(carro);
+		nova.setValor(preco.getPreco());
 
-		return (Lavagem) lavagemRepository.create(lavagem);
+		System.out.println("Lavagem cadastrada com sucesso.");
+		return (Lavagem) lavagemRepository.create(nova);
+	}
+
+	public Lavagem atualizarLavagem(LavagemDTO dto, Long id) {
+		Lavagem existente = findById(id);
+		if (existente == null) {
+			System.out.println("ERRO: Lavagem não encontrada.");
+			return null;
+		}
+
+		Carro carro = null;
+		if (dto.getTipoCarro().equalsIgnoreCase("NOVO")) {
+			carro = carroService.findByChassi(dto.getIdentificador());
+		} else if (dto.getTipoCarro().equalsIgnoreCase("SEMINOVO")) {
+			carro = carroService.findByPlaca(dto.getIdentificador());
+		}
+
+		if (carro == null) {
+			System.out.println("ERRO: Carro não encontrado.");
+			return null;
+		}
+
+		Consultor consultor = consultorService.findByNome(dto.getNomeConsultor());
+		if (consultor == null) {
+			System.out.println("ERRO: Consultor não encontrado.");
+			return null;
+		}
+
+		TabelaPreco preco = tabelaPrecoService.findByModelo(carro.getModelo());
+		if (preco == null) {
+			System.out.println("ERRO: Modelo não cadastrado na tabela de preços.");
+			return null;
+		}
+
+		existente.setData(dto.getData());
+		existente.setOrdemServico(dto.getOrdemServico());
+		existente.setConsultor(consultor);
+		existente.setCarro(carro);
+		existente.setValor(preco.getPreco());
+
+		System.out.println("Lavagem atualizada com sucesso.");
+		return (Lavagem) lavagemRepository.updateById(existente);
 	}
 
 	public Lavagem findById(Long id) {
 		return (Lavagem) lavagemRepository.findById(id);
-	}
-
-	public Lavagem atualizarLavagem(Lavagem lavagem) {
-		return (Lavagem) lavagemRepository.updateById(lavagem);
 	}
 
 	public List<Lavagem> findAll() {

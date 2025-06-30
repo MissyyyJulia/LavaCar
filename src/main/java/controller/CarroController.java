@@ -16,10 +16,17 @@ public class CarroController {
     }
     
     public Carro adicionarCarro(CarroDTO carroDTO) {
+    	  Carro novoCarro = new Carro();
+    	  novoCarro.setCor(carroDTO.getCor());
+    	  novoCarro.setModelo(carroDTO.getModelo());
         return carroService.adicionarCarro(carroDTO); //a service que faz o trabalho de instancia carroNovo ou carroSemiNovo
     }
 
     public Carro atualizarCarro(CarroDTO carroDTO, Long id) {
+    	Carro attCarro = new Carro();
+    	attCarro.setId(id);
+    	attCarro.setCor(carroDTO.getCor());
+    	attCarro.setModelo(carroDTO.getModelo());
         return carroService.atualizarCarro(carroDTO, id);
     }
 
@@ -32,13 +39,12 @@ public class CarroController {
     }
 
     public void excluirCarro(Long id) {
-        Carro c = carroService.findById(id);
-        if (c == null) {
+        Carro carro = carroService.findById(id);
+        if (carro == null) {
             System.out.println("ERRO: carro não encontrado");
             return;
         }
         carroService.excluirCarro(id);
-        System.out.println("Carro excluído com sucesso");
     }
     
 	public Carro findByPlaca(String placa) {

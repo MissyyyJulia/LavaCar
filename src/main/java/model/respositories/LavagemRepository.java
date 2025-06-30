@@ -55,8 +55,12 @@ public class LavagemRepository implements BasicCrud {
 
 	// Encontra a lavagem de acordo com o construtor
 	public List<Lavagem> findByConsultorId(Long idConsultor) {
-		return em.createQuery("SELECT l FROM Lavagem l WHERE l.consultor.id = :idConsultor", Lavagem.class)
-				.setParameter("idConsultor", idConsultor).getResultList();
+		try {
+			return em.createQuery("SELECT l FROM Lavagem l WHERE l.consultor.id = :idConsultor", Lavagem.class)
+					.setParameter("idConsultor", idConsultor).getResultList();
+		} catch (javax.persistence.NoResultException e) {
+		    return null;
+		}
 	}
 
 }

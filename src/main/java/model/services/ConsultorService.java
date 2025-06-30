@@ -21,6 +21,7 @@ public class ConsultorService {
 	}
 
 	public Consultor adicionarConsultor(Consultor consultor) {
+		System.out.println("Consultor adicionado com sucesso.");
 		return (Consultor) consultorRepository.create(consultor);
 	}
 
@@ -29,6 +30,7 @@ public class ConsultorService {
 	}
 
 	public Consultor atualizarConsultor(Consultor consultor) {
+		System.out.println("Consultor atualizado com sucesso.");
 		return (Consultor) consultorRepository.updateById(consultor);
 	}
 

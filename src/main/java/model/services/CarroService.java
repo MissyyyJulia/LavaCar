@@ -43,6 +43,7 @@ public class CarroService {
 		carro.setCor(dto.getCor());
 		carro.setModelo(dto.getModelo());
 
+		System.out.println("Carro cadastrado com Sucesso.");
 		return (Carro) carroRepository.create(carro);
 	}
 
@@ -66,6 +67,7 @@ public class CarroService {
 				return null;
 			}
 
+			System.out.println("Carro atualizado com Sucesso.");
 			return (Carro) carroRepository.updateById(carroExistente);
 		}
 

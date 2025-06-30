@@ -39,17 +39,16 @@ public class TabelaPrecoController {
     }
 
     public void excluirTabelaPreco(Long id) {
-        TabelaPreco tp = tabelaService.findById(id);
-        if (tp == null) {
+        TabelaPreco tabelaPreco = tabelaService.findById(id);
+        if (tabelaPreco == null) {
             System.out.println("ERRO: item da tabela de preço não encontrado");
             return;
         }
         tabelaService.excluirTabelaPreco(id);
-        System.out.println("Item da tabela de preço excluído com sucesso");
     }
     
-    public TabelaPreco findByModelo(TabelaPrecoDTO tabelaPrecoDTO) {
-        return tabelaService.findByModelo(tabelaPrecoDTO.getModelo());
+    public TabelaPreco findByModelo(String modelo) {
+        return tabelaService.findByModelo(modelo);
     }
 
 }

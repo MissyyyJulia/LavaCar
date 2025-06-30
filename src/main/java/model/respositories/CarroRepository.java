@@ -28,7 +28,6 @@ public class CarroRepository implements BasicCrud {
 		} catch (Exception e) {
 			System.out.println(e.getCause());
 		}
-
 		return null;
 	}
 
@@ -64,8 +63,6 @@ public class CarroRepository implements BasicCrud {
 		}
 	}
 	
-
-
 	// retorna o carro de acordo com o chassi
 	public Carro findByChassi(String chassi) {
 		try {

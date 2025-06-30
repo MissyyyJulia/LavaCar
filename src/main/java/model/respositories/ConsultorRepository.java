@@ -55,8 +55,12 @@ public class ConsultorRepository implements BasicCrud {
 
 	// retorna o consultor de acordo com o nome
 	public Consultor findByNome(String nome) {
-		return em.createQuery("SELECT co FROM Consultor co WHERE co.nome = :nome", Consultor.class)
-				.setParameter("nome", nome).getSingleResult();
+		try {
+			return em.createQuery("SELECT co FROM Consultor co WHERE co.nome = :nome", Consultor.class)
+					.setParameter("nome", nome).getSingleResult();
+		} catch (javax.persistence.NoResultException e) {
+		    return null;
+		}
 	}
 
 }

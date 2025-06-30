@@ -43,7 +43,6 @@ public class ConsultorController {
             return;
         }
         consultorService.excluirConsultor(id);
-        System.out.println("Consultor excluído com sucesso");
     }
     
     public Consultor findByNome(String nome) {

@@ -21,6 +21,7 @@ public class TabelaPrecoService {
 	}
 
 	public TabelaPreco adicionarTabelaPreco(TabelaPreco tabelaPreco) {
+		System.out.println("Item cadastrado com sucesso!");
 		return (TabelaPreco) tabelaPrecoRepository.create(tabelaPreco);
 	}
 
@@ -29,6 +30,7 @@ public class TabelaPrecoService {
 	}
 
 	public TabelaPreco atualizarTabelaPreco(TabelaPreco tabelaPreco) {
+		System.out.println("Item atualizado com sucesso!");
 		return (TabelaPreco) tabelaPrecoRepository.updateById(tabelaPreco);
 	}
 

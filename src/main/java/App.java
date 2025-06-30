@@ -6,17 +6,21 @@ import java.util.Scanner;
 import controller.CarroController;
 import controller.ConsultorController;
 import controller.LavagemController;
+import controller.TabelaPrecoController;
 import model.entities.Carro;
 import model.entities.CarroNovo;
 import model.entities.CarroSemiNovo;
 import model.entities.Consultor;
 import model.entities.Lavagem;
+import model.entities.TabelaPreco;
 import model.services.CarroService;
 import model.services.ConsultorService;
 import model.services.LavagemService;
+import model.services.TabelaPrecoService;
 import view.CarroDTO;
 import view.ConsultorDTO;
 import view.LavagemDTO;
+import view.TabelaPrecoDTO;
 
 public class App {
 
@@ -43,7 +47,7 @@ public class App {
 				menuConsultores();
 				break;
 			case 3:
-				
+				menuTabelaPrecos();
 				break;
 			case 4:
 				menuLavagens();
@@ -101,7 +105,6 @@ public class App {
 				carroDTO.setCor(scanner.nextLine());
 
 				carroController.adicionarCarro(carroDTO);
-				System.out.println("Carro criado com sucesso.");
 				break;
 
 			case 2:
@@ -157,7 +160,7 @@ public class App {
 			case 5:
 				System.out.print("ID: ");
 				Long idAtt = Long.parseLong(scanner.nextLine());
-
+				
 				System.out.print("Tipo (NOVO/SEMINOVO): ");
 				carroDTO.setTipo(scanner.nextLine());
 				System.out.print("Modelo: ");
@@ -174,7 +177,6 @@ public class App {
 				}
 
 				carroController.atualizarCarro(carroDTO, idAtt);
-				System.out.println("Atualizado como sucesso! ");
 				break;
 
 			case 6:
@@ -234,7 +236,6 @@ public class App {
 				System.out.print("Nome: ");
 				consultorDTO.setNome(scanner.nextLine());
 				consultorController.atualizarConsultor(consultorDTO, idAtt);
-				System.out.println("Atualizado com sucesso!");
 				break;
 
 			case 4:
@@ -250,11 +251,93 @@ public class App {
 			}
 		}
 	}
+	
+	// Submenu Tabela de Preços
+	private static void menuTabelaPrecos() {
+		TabelaPrecoDTO tabelaPrecoDTO = new TabelaPrecoDTO();
+		TabelaPrecoController tabelaPrecoController = new TabelaPrecoController(new TabelaPrecoService());
+
+		Scanner scanner = new Scanner(System.in);
+		boolean submenu = true;
+
+		while (submenu) {
+			System.out.println("\n--- Menu Tabela de Preços ---");
+			System.out.println("1. Cadastrar preço");
+			System.out.println("2. Listar todos");
+			System.out.println("3. Buscar por modelo");
+			System.out.println("4. Atualizar");
+			System.out.println("5. Excluir");
+			System.out.println("0. Voltar");
+			System.out.print("Opção: ");
+			int opcao = scanner.nextInt();
+			scanner.nextLine();
+
+			switch (opcao) {
+			case 1:
+				System.out.print("Modelo: ");
+				tabelaPrecoDTO.setModelo(scanner.nextLine());
+
+				System.out.print("Preço: ");
+				tabelaPrecoDTO.setPreco(Double.parseDouble(scanner.nextLine()));
+
+				tabelaPrecoController.adicionarTabelaPreco(tabelaPrecoDTO);
+				break;
+
+			case 2:
+				List<TabelaPreco> precos = tabelaPrecoController.findAll();
+				if (precos.isEmpty()) {
+					System.out.println("Nenhum preço cadastrado.");
+				} else {
+					precos.forEach(p -> System.out.println(p.getId() + " | " + p.getModelo() + " | R$" + p.getPreco()));
+				}
+				break;
+
+			case 3:
+				System.out.print("Modelo: ");
+				String modelo = scanner.nextLine();
+
+				TabelaPreco precoEncontrado = tabelaPrecoController.findByModelo(modelo);
+				if (precoEncontrado != null) {
+					System.out.println("ID: " + precoEncontrado.getId());
+					System.out.println("Modelo: " + precoEncontrado.getModelo());
+					System.out.println("Preço: R$" + precoEncontrado.getPreco());
+				} else {
+					System.out.println("Modelo não encontrado.");
+				}
+				break;
+
+			case 4:
+				System.out.print("ID: ");
+				Long idAtt = Long.parseLong(scanner.nextLine());
+
+				System.out.print("Modelo: ");
+				tabelaPrecoDTO.setModelo(scanner.nextLine());
+
+				System.out.print("Preço: ");
+				tabelaPrecoDTO.setPreco(Double.parseDouble(scanner.nextLine()));
+
+				tabelaPrecoController.atualizarTabelaPreco(tabelaPrecoDTO, idAtt);
+				break;
+
+			case 5:
+				System.out.print("ID: ");
+				tabelaPrecoController.excluirTabelaPreco(scanner.nextLong());
+				break;
+
+			case 0:
+				submenu = false;
+				break;
+
+			default:
+				System.out.println("Opção inválida!");
+			}
+		}
+	}
 
 	// Submenu Lavagens
 	private static void menuLavagens() {
 		LavagemDTO lavagemDTO = new LavagemDTO();
-		LavagemController lavagemController = new LavagemController(new LavagemService(), new CarroService(), new ConsultorService());
+		LavagemController lavagemController = new LavagemController(new LavagemService());
 
 		Scanner scanner = new Scanner(System.in);
 		boolean submenu = true;
@@ -314,9 +397,7 @@ public class App {
 				Long idAtt = Long.parseLong(scanner.nextLine());
 				System.out.print("Nova ordem de serviço: ");
 				lavagemDTO.setOrdemServico(scanner.nextLine());
-				
 				lavagemController.atualizarLavagem(lavagemDTO, idAtt);
-				System.out.println("Atualizada com Sucesso!");
 				break;
 			}
 			case 5: {
