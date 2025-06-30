@@ -108,14 +108,32 @@ public class App {
 				break;
 
 			case 2:
-				List<Carro> lista = carroController.findAll();
+			    List<Carro> lista = carroController.findAll();
 
-				if (lista.isEmpty()) {
-					System.out.println("Nenhum carro cadastrado.");
-				} else {
-					lista.forEach(x -> System.out.println(x.getId() + " | " + x.getModelo() + " | " + x.getCor()));
-				}
-				break;
+			    if (lista.isEmpty()) {
+			        System.out.println("Nenhum carro cadastrado.");
+			    } else {
+			        lista.forEach(x -> {
+			            System.out.print(x.getId() + " | " + x.getModelo() + " | " + x.getCor());
+
+			            // Se for carro seminovo, imprime placa
+			            if (x instanceof CarroSemiNovo) {
+			                System.out.print(" | Placa: " + ((CarroSemiNovo) x).getPlaca());
+			            } else {
+			                System.out.print(" | Placa: -");
+			            }
+
+			            // Se for carro novo, imprime chassi
+			            if (x instanceof CarroNovo) {
+			                System.out.print(" | Chassi: " + ((CarroNovo) x).getChassi());
+			            } else {
+			                System.out.print(" | Chassi: -");
+			            }
+
+			            System.out.println(); // Quebra de linha no final de cada carro
+			        });
+			    }
+			    break;
 
 			case 3:
 				System.out.print("Placa: ");
@@ -352,60 +370,75 @@ public class App {
 			System.out.println("0. Voltar");
 			System.out.print("Opção: ");
 			int opcao = scanner.nextInt();
-			
-			
+			scanner.nextLine();
+
 			switch (opcao) {
-			case 1: {
+			case 1:
 				System.out.print("Data (YYYY-MM-DD): ");
-				lavagemDTO.setData(LocalDate.parse(scanner.nextLine()));
-				System.out.print("Ordem serviço: ");
-				lavagemDTO.setOrdemServico(scanner.nextLine());
-				System.out.print("Tipo carro (NOVO/SEMINOVO): ");
-				lavagemDTO.setTipoCarro(scanner.nextLine());
-				System.out.print("Identificador: ");
-				lavagemDTO.setIdentificador(scanner.nextLine());
-				System.out.print("Nome consultor: ");
-				lavagemDTO.setNomeConsultor(scanner.nextLine());
-				Lavagem n = lavagemController.adicionarLavagem(lavagemDTO);
-				System.out.println("Lavagem criada com ID=" + n.getId());
+				try {
+					lavagemDTO.setData(LocalDate.parse(scanner.nextLine()));
+					System.out.print("Ordem serviço: ");
+					lavagemDTO.setOrdemServico(scanner.nextLine());
+					System.out.print("Tipo carro (NOVO/SEMINOVO): ");
+					lavagemDTO.setTipoCarro(scanner.nextLine());
+					System.out.print("Identificador: ");
+					lavagemDTO.setIdentificador(scanner.nextLine());
+					System.out.print("Nome consultor: ");
+					lavagemDTO.setNomeConsultor(scanner.nextLine());
+					Lavagem n = lavagemController.adicionarLavagem(lavagemDTO);
+					if (n == null) {
+						System.out.println("Erro ao cadastrar lavagem. Verifique os dados informados.");
+					}
+				} catch (Exception e) {
+					System.out.println("Data inválida ou erro inesperado: " + e.getMessage());
+				}
 				break;
-			}
-			case 2: {
+			case 2:
 				List<Lavagem> tudo = lavagemController.findAll();
 				if (tudo.isEmpty()) {
 					System.out.println("Nenhuma lavagem cadastrada.");
 				} else {
 					tudo.forEach(
-							x -> System.out.println(x.getId() + " | " + x.getData() + " | " + x.getOrdemServico()));
+						x -> System.out.println(x.getId() + " | " + x.getData() + " | " + x.getOrdemServico() + " | " + x.getConsultor() + "|" + x.getValor()));
 				}
 				break;
-			}
-			case 3: {
-				System.out.print("ID Consultor: ");
-				
-				List<Lavagem> lavagens = lavagemController.findByConsultorId(Long.parseLong(scanner.nextLine()));
-				
-				if (lavagens.isEmpty()) {
-					System.out.println("Nenhuma lavagem para esse consultor.");
-				} else {
-					lavagens.forEach(x -> System.out.println(x.getId() + " | " + x.getData() + " | " + x.getOrdemServico() + " | " + x.getCarro()));
-				}
-				break;
-			}
-			case 4: {
+			case 3:
+			    System.out.print("ID Consultor: ");
+
+			    List<Lavagem> lavagens = lavagemController.findByConsultorId(Long.parseLong(scanner.nextLine()));
+
+			    if (lavagens.isEmpty()) {
+			        System.out.println("Nenhuma lavagem para esse consultor.");
+			    } else {
+			        lavagens.forEach(x -> {
+			            System.out.print(x.getId() + " | " + x.getData() + " | OS:" + x.getOrdemServico() + " | ");
+			            System.out.print("Modelo: " + x.getCarro().getModelo() + "| Cor: " + x.getCarro().getCor());
+
+			            if (x.getCarro() instanceof CarroNovo) {
+			                CarroNovo c = (CarroNovo) x.getCarro();
+			                System.out.println("| Chassi: " + c.getChassi());
+			            } else if (x.getCarro() instanceof CarroSemiNovo) {
+			                CarroSemiNovo c = (CarroSemiNovo) x.getCarro();
+			                System.out.println("| Placa: " + c.getPlaca());
+			            } else {
+			                System.out.println("| Identificador desconhecido");
+			            }
+			        });
+			    }
+			    break;
+			case 4: 
 				System.out.print("ID: ");
 				Long idAtt = Long.parseLong(scanner.nextLine());
 				System.out.print("Nova ordem de serviço: ");
 				lavagemDTO.setOrdemServico(scanner.nextLine());
 				lavagemController.atualizarLavagem(lavagemDTO, idAtt);
 				break;
-			}
-			case 5: {
+			case 5: 
 				System.out.print("ID: ");
 				lavagemController.excluirLavagem(Long.parseLong(scanner.nextLine()));
 				break;
-			}
 			case 0:
+				submenu = false;
 				break;
 			default:
 				System.out.println("Opção inválida!");

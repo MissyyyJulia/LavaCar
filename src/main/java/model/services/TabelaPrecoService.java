@@ -1,7 +1,6 @@
 package model.services;
 
 import java.util.List;
-
 import model.entities.TabelaPreco;
 import model.respositories.TabelaPrecoRepository;
 
@@ -9,9 +8,34 @@ public class TabelaPrecoService {
 
 	private TabelaPrecoRepository tabelaPrecoRepository = new TabelaPrecoRepository();
 
+	public TabelaPreco adicionarTabelaPreco(TabelaPreco tabelaPreco) {
+		TabelaPreco created = (TabelaPreco) tabelaPrecoRepository.create(tabelaPreco);
+		System.out.println("Item cadastrado com sucesso!");
+		return created;
+	}
+
+	public TabelaPreco atualizarTabelaPreco(TabelaPreco tabelaPreco) {
+		TabelaPreco updated =(TabelaPreco) tabelaPrecoRepository.updateById(tabelaPreco);
+		System.out.println("Item atualizado com sucesso!");
+		return updated;
+	}
+
+	public TabelaPreco findById(Long id) {
+		return (TabelaPreco) tabelaPrecoRepository.findById(id);
+	}
+
+	// Busca item por modelo (usado na lavagem para buscar valor)
+	public TabelaPreco findByModelo(String modelo) {
+		return tabelaPrecoRepository.findByModelo(modelo);
+	}
+
+	public List<TabelaPreco> findAll() {
+		return tabelaPrecoRepository.findAll();
+	}
+
 	public boolean excluirTabelaPreco(Long id) {
-		TabelaPreco tabelaPrecoToDelete = (TabelaPreco) tabelaPrecoRepository.findById(id);
-		if (tabelaPrecoToDelete == null) {
+		TabelaPreco tabelaPreco = (TabelaPreco)tabelaPrecoRepository.findById(id);
+		if (tabelaPreco == null) {
 			System.out.println("ERRO: Não foi possível encontrar o item.");
 			return false;
 		}
@@ -19,27 +43,4 @@ public class TabelaPrecoService {
 		System.out.println("Item excluído com sucesso!");
 		return true;
 	}
-
-	public TabelaPreco adicionarTabelaPreco(TabelaPreco tabelaPreco) {
-		System.out.println("Item cadastrado com sucesso!");
-		return (TabelaPreco) tabelaPrecoRepository.create(tabelaPreco);
-	}
-
-	public TabelaPreco findById(Long id) {
-		return (TabelaPreco) tabelaPrecoRepository.findById(id);
-	}
-
-	public TabelaPreco atualizarTabelaPreco(TabelaPreco tabelaPreco) {
-		System.out.println("Item atualizado com sucesso!");
-		return (TabelaPreco) tabelaPrecoRepository.updateById(tabelaPreco);
-	}
-
-	public List<TabelaPreco> findAll() {
-		return tabelaPrecoRepository.findAll();
-	}
-
-	public TabelaPreco findByModelo(String modelo) {
-		return tabelaPrecoRepository.findByModelo(modelo);
-	}
-
 }
