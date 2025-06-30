@@ -4,7 +4,11 @@ Este projeto é um sistema completo em Java que simula a gestão de lavagens aut
 
 ---
 
-## 🧠 Objetivo do Projeto
+## Intruções de execução
+
+NO TERMINAL DO SEU COMPUTADOR - após baixar o projeto, executar no terminal java -jar caminho_do_arquivo_executavel.jar
+
+## Objetivo do Projeto
 
 Desenvolver uma aplicação prática com base nos conceitos teóricos da linguagem Java, utilizando:
 - Programação Orientada a Objetos (POO)
@@ -15,7 +19,7 @@ Desenvolver uma aplicação prática com base nos conceitos teóricos da linguag
 
 ---
 
-## 🛠️ Tecnologias Utilizadas
+## Tecnologias Utilizadas
 
 | Tecnologia        | Descrição                                      |
 |-------------------|-----------------------------------------------|
@@ -29,7 +33,7 @@ Desenvolver uma aplicação prática com base nos conceitos teóricos da linguag
 
 ---
 
-## 🧩 Arquitetura do Projeto
+## Arquitetura do Projeto
 
 O projeto segue o padrão **MVC (Model-View-Controller)** com separação em pacotes:
 
@@ -53,28 +57,28 @@ src/ \
 
 ### 📁 Módulos:
 
-#### 🚘 **Carros**
+#### **Carros**
 - Cadastrar carro (novo ou seminovo)
 - Listar todos os carros
 - Buscar por **placa** ou **chassi**
 - Atualizar dados do carro
 - Excluir carro
 
-#### 👤 **Consultores**
+#### **Consultores**
 - Cadastrar consultor
 - Listar todos
 - Buscar por ID
 - Atualizar dados
 - Excluir
 
-#### 💸 **Tabela de Preços**
+#### **Tabela de Preços**
 - Cadastrar preço por modelo
 - Listar todos os preços
 - Buscar por modelo
 - Atualizar preço
 - Excluir
 
-#### 🧼 **Lavagens**
+#### **Lavagens**
 - Cadastrar lavagem
 - Listar todas
 - Buscar por consultor
