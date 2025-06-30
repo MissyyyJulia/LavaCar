@@ -2,11 +2,10 @@
 
 Este projeto é um sistema completo em Java que simula a gestão de lavagens automotivas em um lava-rápido. A aplicação funciona via console (terminal) e permite o cadastro, listagem, busca, atualização e exclusão de **carros**, **consultores**, **lavagens** e **tabela de preços**.
 
----
-
-## Intruções de execução
-
+### Intruções de execução
 NO TERMINAL DO SEU COMPUTADOR - após baixar o projeto, executar no terminal java -jar caminho_do_arquivo_executavel.jar
+
+---
 
 ## Objetivo do Projeto
 
