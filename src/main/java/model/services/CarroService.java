@@ -46,9 +46,28 @@ public class CarroService {
 		return (Carro) carroRepository.create(carro);
 	}
 
-	public Carro atualizarCarro(Carro carro) {
-		return (Carro) carroRepository.updateById(carro);
-	}
+	public Carro atualizarCarro(CarroDTO carroDTO, Long id) {
+			Carro carroExistente =(Carro) carroRepository.findById(id);
+
+			if (carroExistente == null) {
+				System.out.println("ERRO: Carro não encontrado.");
+				return null;
+			}
+
+			carroExistente.setModelo(carroDTO.getModelo());
+			carroExistente.setCor(carroDTO.getCor());
+
+			if ("NOVO".equalsIgnoreCase(carroDTO.getTipo()) && carroExistente instanceof CarroNovo) {
+				((CarroNovo) carroExistente).setChassi(carroDTO.getChassi());
+			} else if ("SEMINOVO".equalsIgnoreCase(carroDTO.getTipo()) && carroExistente instanceof CarroSemiNovo) {
+				((CarroSemiNovo) carroExistente).setPlaca(carroDTO.getPlaca());
+			} else {
+				System.out.println("ERRO: O tipo informado não corresponde ao tipo real do carro.");
+				return null;
+			}
+
+			return (Carro) carroRepository.updateById(carroExistente);
+		}
 
 	public Carro findById(Long id) {
 		return (Carro) carroRepository.findById(id);

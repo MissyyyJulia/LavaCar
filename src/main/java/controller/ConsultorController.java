@@ -2,7 +2,6 @@ package controller;
 
 import java.util.List;
 
-import model.entities.Carro;
 import model.entities.Consultor;
 import model.services.ConsultorService;
 import view.ConsultorDTO;

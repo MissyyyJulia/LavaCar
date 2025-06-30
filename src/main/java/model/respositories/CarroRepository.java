@@ -55,14 +55,26 @@ public class CarroRepository implements BasicCrud {
 
 	// retorna o carro de acordo com a placa
 	public Carro findByPlaca(String placa) {
-		return em.createQuery("SELECT c FROM Carro c WHERE c.placa = :placa", Carro.class).setParameter("placa", placa)
-				.getSingleResult();
+		try {
+		    return em.createQuery("SELECT c FROM Carro c WHERE c.placa = :placa", Carro.class)
+		             .setParameter("placa", placa)
+		             .getSingleResult();
+		} catch (javax.persistence.NoResultException e) {
+		    return null;
+		}
 	}
+	
+
 
 	// retorna o carro de acordo com o chassi
 	public Carro findByChassi(String chassi) {
-		return em.createQuery("SELECT c FROM Carro c WHERE c.chassi = :chassi", Carro.class)
-				.setParameter("chassi", chassi).getSingleResult();
+		try {
+		    return em.createQuery("SELECT c FROM Carro c WHERE c.chassi = :chassi", Carro.class)
+		             .setParameter("chassi", chassi)
+		             .getSingleResult();
+		} catch (javax.persistence.NoResultException e) {
+		    return null;
+		}
 	}
 
 }

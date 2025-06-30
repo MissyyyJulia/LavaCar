@@ -20,11 +20,7 @@ public class CarroController {
     }
 
     public Carro atualizarCarro(CarroDTO carroDTO, Long id) {
-    	Carro atualizarCarro = new Carro();
-    	atualizarCarro.setId(id);
-    	atualizarCarro.setCor(carroDTO.getCor());
-    	atualizarCarro.setModelo(carroDTO.getModelo());
-        return carroService.atualizarCarro(atualizarCarro);
+        return carroService.atualizarCarro(carroDTO, id);
     }
 
     public Carro findCarroById(Long id) {
