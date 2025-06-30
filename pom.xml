@@ -35,6 +35,37 @@
 		</dependency>
 
 	</dependencies>
+	
+	<build>
+  <plugins>
+    <!-- Plugin para gerar jar com todas as dependências -->
+    <plugin>
+      <artifactId>maven-assembly-plugin</artifactId>
+      <version>3.3.0</version>
+      <configuration>
+        <archive>
+          <manifest>
+            <!-- Aqui você coloca a sua classe principal completa -->
+            <mainClass>App</mainClass>
+          </manifest>
+        </archive>
+        <descriptorRefs>
+          <descriptorRef>jar-with-dependencies</descriptorRef>
+        </descriptorRefs>
+      </configuration>
+      <executions>
+        <execution>
+          <id>make-assembly</id>
+          <phase>package</phase>
+          <goals>
+            <goal>single</goal>
+          </goals>
+        </execution>
+      </executions>
+    </plugin>
+  </plugins>
+</build>
+
 
 </project>
 
